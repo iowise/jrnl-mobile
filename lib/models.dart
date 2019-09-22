@@ -12,6 +12,7 @@ class Record {
         ')';
   }
 
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is Record &&
@@ -20,4 +21,9 @@ class Record {
               title == other.title &&
               fullContent == other.fullContent;
 
+  @override
+  int get hashCode =>
+      createdAt.hashCode ^
+      title.hashCode ^
+      fullContent.hashCode;
 }

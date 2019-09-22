@@ -1,9 +1,9 @@
 import 'package:jrnl/models.dart';
 
 class JrnlParser {
-  JrnlParser(this.content);
-
   String content;
+
+  JrnlParser(this.content);
 
   RegExp dateBlobRE =
       new RegExp(r"^\[([^\\\]]+)\] ((?:(?!^\[).*\n*)*)", multiLine: true);
@@ -14,9 +14,9 @@ class JrnlParser {
       yield Record(DateTime.now(), '', '');
     } else {
       for (var match in this.dateBlobRE.allMatches(this.content)) {
-        final date_blob = match.group(1);
+        final dateBlob = match.group(1);
         final text = match.group(2);
-        final date = DateTime.parse(date_blob);
+        final date = DateTime.parse(dateBlob);
         yield Record(date, text.split('\n')[0], text.trim());
       }
     }
