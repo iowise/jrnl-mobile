@@ -3,10 +3,33 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:jrnl/parser.dart';
 import 'package:jrnl/models.dart';
 
 String _jrnlData = """[2020-02-05 12:54] Note 1
+# Markdown Example
+Markdown allows you to easily include formatted text, images,
+
+ and even formatted Dart code in your app. 
+
+# Markdown Example
+Markdown allows you to easily include formatted text, images,
+
+ and even formatted Dart code in your app. 
+# Markdown Example
+# Markdown Example
+# Markdown Example
+# Markdown Example
+# Markdown Example
+# Markdown Example
+# Markdown Example
+Markdown allows you to easily include formatted text, images, 
+and even formatted Dart code in your app. 
+# Markdown Example
+Markdown allows you to easily include formatted text, images, and even formatted Dart code in your app. 
+# Markdown Example
+Markdown allows you to easily include formatted text, images, and even formatted Dart code in your app. 
 # Markdown Example
 Markdown allows you to easily include formatted text, images, and even formatted Dart code in your app. 
 
@@ -37,6 +60,35 @@ class MyApp extends StatelessWidget {
 class JournalState extends State<Journal> {
   final _parserData = List.from(JrnlParser(_jrnlData).entries());
 
+  void _pushSaved(Record record) {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+      return Scaffold(
+        // Add 6 lines from here...
+        appBar: AppBar(
+          title: Text(record.title),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(record.createdAt.toString())
+                  ),
+                ],
+              ),
+              Expanded(child: Markdown(data: record.fullContent))
+            ],
+          ),
+        )
+      );
+    }));
+  }
+
   Widget _buildSuggestions() {
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
@@ -52,9 +104,11 @@ class JournalState extends State<Journal> {
 
   Widget _buildRow(Record row) {
     return ListTile(
-      title: Text(row.title),
-      subtitle: Text(row.createdAt.toString()),
-    );
+        title: Text(row.title),
+        subtitle: Text(row.createdAt.toString()),
+        onTap: () {
+          _pushSaved(row);
+        });
   }
 
   @override
