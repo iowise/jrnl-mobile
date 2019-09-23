@@ -64,27 +64,10 @@ class JournalState extends State<Journal> {
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (BuildContext context) {
       return Scaffold(
-        // Add 6 lines from here...
         appBar: AppBar(
-          title: Text(record.title),
+          title: Text(record.createdAt.toString() + ' ' + record.title),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(record.createdAt.toString())
-                  ),
-                ],
-              ),
-              Expanded(child: Markdown(data: record.fullContent))
-            ],
-          ),
-        )
+        body: Markdown(data: record.fullContent)
       );
     }));
   }
