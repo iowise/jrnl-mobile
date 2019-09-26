@@ -1,4 +1,4 @@
-import 'package:jrnl/models.dart';
+import 'models.dart';
 
 class JrnlParser {
   String content;
