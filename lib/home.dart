@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import 'form.dart';
 import 'journal.dart';
 
 class Home extends StatelessWidget {
@@ -22,7 +23,7 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           title: Text('lorem ipsum'),
         ),
-        body: Text('lorem hui'),
+        body: RecordForm(),
       );
     }));
   }

@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_markdown: ^0.2.0
   file_picker: ^1.4.0
+  datetime_picker_formfield: ^0.4.3
+  intl: ^0.15.8
 
 dev_dependencies:
   flutter_test:
