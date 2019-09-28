@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
-import 'package:jrnl/parser.dart';
-import 'package:jrnl/models.dart';
+import 'package:jrnl/jrnl/parser.dart';
+import 'package:jrnl/jrnl/models.dart';
 
 void main() {
   test('parse empty string', () {
@@ -43,5 +43,26 @@ Everything is OK
       Record(DateTime(2020, 02, 10, 12, 54), 'Hello World five days latter',
           'Hello World five days latter'),
     ]);
+  });
+  test('parse multiline record with square brackets', () {
+    final parser = JrnlParser('''[2020-02-05 12:54] Hello World
+[1] line with 1
+Everything is OK
+[2020-02-10 12:54] Hello World five days latter''');
+    expect(parser.entries(), [
+      Record(DateTime(2020, 02, 05, 12, 54), 'Hello World',
+          "Hello World\n[1] line with 1\nEverything is OK"),
+      Record(DateTime(2020, 02, 10, 12, 54), 'Hello World five days latter',
+          'Hello World five days latter'),
+    ]);
+  });
+  test('render', () {
+    final original = '''[2020-02-05 12:54] Hello World
+[1] line with 1
+Everything is OK
+[2020-02-10 12:54] Hello World five days latter
+''';
+    final parser = JrnlParser(original);
+    expect(render(List.of(parser.entries())), original);
   });
 }

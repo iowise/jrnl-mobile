@@ -1,19 +1,21 @@
 import 'models.dart';
 
+const datetimeRE = r'\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\]';
+
 class JrnlParser {
   String content;
 
   JrnlParser(this.content);
 
   RegExp dateBlobRE =
-      new RegExp(r"^\[([^\\\]]+)\] ((?:(?!^\[).*\n*)*)", multiLine: true);
+      new RegExp("^$datetimeRE ((?:(?!^$datetimeRE).*\\n*)*)", multiLine: true);
 
   Iterable<Record> entries() sync* {
-    final matches = this.dateBlobRE.allMatches(this.content);
+    final matches = dateBlobRE.allMatches(content);
     if (matches.isEmpty) {
       yield Record(DateTime.now(), '', '');
     } else {
-      for (var match in this.dateBlobRE.allMatches(this.content)) {
+      for (var match in matches) {
         final dateBlob = match.group(1);
         final text = match.group(2);
         final date = DateTime.parse(dateBlob);
@@ -21,4 +23,12 @@ class JrnlParser {
       }
     }
   }
+}
+
+String render(List<Record> records) {
+  final buffer = new StringBuffer();
+  for (var record in records) {
+    buffer.write("[${record.preattyCreated}] ${record.fullContent}\n");
+  }
+  return buffer.toString();
 }

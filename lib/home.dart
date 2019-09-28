@@ -1,31 +1,53 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import 'detials.dart';
 import 'form.dart';
 import 'journal.dart';
+import 'jrnl/bloc.dart';
+import 'jrnl/models.dart';
 
-class Home extends StatelessWidget {
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    jrnlBloc = Count1Bloc();
+    jrnlBloc.restore(this);
+  }
+
+  @override
+  void dispose() {
+    jrnlBloc = null;
+    super.dispose();
+  }
+
   void _loadJrnlFile() async {
     String filePath;
     filePath = await FilePicker.getFilePath(
         type: FileType.CUSTOM, fileExtension: 'txt');
-    final file = File(filePath);
-    final content = await file.readAsString();
-    print(content);
+    jrnlBloc.open(this, filePath);
   }
 
   void _pushCreating(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute<void>(builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('lorem ipsum'),
-        ),
-        body: RecordForm(),
-      );
+      return RecordForm(onSaved: (momento) => jrnlBloc.save(this, momento));
     }));
+  }
+
+  void _pushDetails(Record record) {
+    Navigator.of(context).push(MaterialPageRoute<void>(
+        builder: (BuildContext context) =>
+            RecordDetail(record, onEdit: this.pushEdit)));
+  }
+
+  void pushEdit(Record record) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => RecordForm(
+            record: record, onSaved: (momento) => jrnlBloc.save(this, momento)),
+      ),
+    );
   }
 
   @override
@@ -38,7 +60,7 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Journal(),
+        child: Journal(jrnlBloc.records, this._pushDetails),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -48,4 +70,9 @@ class Home extends StatelessWidget {
       ),
     );
   }
+}
+
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
 }

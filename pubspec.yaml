@@ -27,6 +27,7 @@ dependencies:
   file_picker: ^1.4.0
   datetime_picker_formfield: ^0.4.3
   intl: ^0.15.8
+  shared_preferences: ^0.5.3+4
 
 dev_dependencies:
   flutter_test:
