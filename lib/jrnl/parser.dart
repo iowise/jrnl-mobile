@@ -1,16 +1,17 @@
 import 'models.dart';
 
-const datetimeRE = r'\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\]';
+const legacyDatetimeRE = r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}(?::\d{2})?)';
+const datetimeRE = "\\[$legacyDatetimeRE\\]";
 
 class JrnlParser {
   String content;
 
   JrnlParser(this.content);
 
-  RegExp dateBlobRE =
-      new RegExp("^$datetimeRE ((?:(?!^$datetimeRE).*\\n*)*)", multiLine: true);
-
   Iterable<Record> entries() sync* {
+    final re = content.startsWith('[') ? datetimeRE : legacyDatetimeRE;
+    final dateBlobRE =
+        new RegExp("^$re ((?:(?!^$re).*\\n*)*)", multiLine: true);
     final matches = dateBlobRE.allMatches(content);
     if (matches.isEmpty) {
       yield Record(DateTime.now(), '', '');
