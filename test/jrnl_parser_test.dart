@@ -9,19 +9,17 @@ void main() {
   });
 
   group("empty entry parsing", () {
-    var inputsToExpected = {
-      "[2020-02-05 12:54] ": [DateTime(2020, 02, 05, 12, 54), ''],
-      "[2020-02-05 12:54]  ": [DateTime(2020, 02, 05, 12, 54), ' '],
-      "[2020-02-05 12:54:05]     ": [
-        DateTime(2020, 02, 05, 12, 54, 05),
-        '    '
-      ],
-    };
-    inputsToExpected.forEach((input, expected) {
-      test("$input -> $expected", () {
-        expect(JrnlParser(input).entries(),
-            [Record(expected[0], expected[1], '')]);
-      });
+    test("'[2020-02-05 12:54] '", () {
+      expect(JrnlParser('[2020-02-05 12:54] ').entries(),
+          [Record(DateTime(2020, 02, 05, 12, 54), '', '')]);
+    });
+    test("'[2020-02-05 12:54]  '", () {
+      expect(JrnlParser('[2020-02-05 12:54]  ').entries(),
+          [Record(DateTime(2020, 02, 05, 12, 54), ' ', '')]);
+    });
+    test("'[2020-02-05 12:54]   '", () {
+      expect(JrnlParser('[2020-02-05 12:54:05]    ').entries(),
+          [Record(DateTime(2020, 02, 05, 12, 54, 05), '   ', '')]);
     });
   });
 
