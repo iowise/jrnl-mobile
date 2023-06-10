@@ -1,9 +1,10 @@
 class RecordMomento {
   DateTime createdAt = DateTime.now();
   String fullContent = '';
-  Record origin;
+  Record? origin;
 
   RecordMomento();
+
   RecordMomento.from(Record record) {
     createdAt = record.createdAt;
     fullContent = record.fullContent;
@@ -21,7 +22,7 @@ class Record {
 
   Record(this.createdAt, this.title, this.fullContent);
 
-  get preattyCreated {
+  get prettyCreated {
     final year = pad(createdAt.year, 4);
     final month = pad(createdAt.month, 2);
     final day = pad(createdAt.day, 2);

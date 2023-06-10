@@ -27,7 +27,7 @@ class Journal extends StatelessWidget {
         final index = i ~/ 2;
         return _buildRow(_parserData[index]);
       },
-      itemCount: _parserData.length * 2 - 1,
+      itemCount: _parserData.length > 0 ? _parserData.length * 2 - 1 : 0,
     );
   }
 }
