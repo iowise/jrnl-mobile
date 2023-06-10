@@ -11,8 +11,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    jrnlBloc = Count1Bloc();
-    jrnlBloc.restore(this);
+    jrnlBloc = JrnlBloc();
+    jrnlBloc?.restore(this);
   }
 
   @override
@@ -23,15 +23,15 @@ class _HomeState extends State<Home> {
 
   void _loadJrnlFile() async {
     String filePath;
-    filePath = await FilePicker.getFilePath(
-        type: FileType.CUSTOM, fileExtension: 'txt');
-    jrnlBloc.open(this, filePath);
+    // filePath = await FilePicker.getFilePath(
+    //     type: FileType.CUSTOM, fileExtension: 'txt');
+    // jrnlBloc.open(this, filePath);
   }
 
   void _pushCreating(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute<void>(builder: (BuildContext context) {
-      return RecordForm(onSaved: (momento) => jrnlBloc.save(this, momento));
+      return RecordForm(onSaved: (momento) => jrnlBloc?.save(this, momento));
     }));
   }
 
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) => RecordForm(
-            record: record, onSaved: (momento) => jrnlBloc.save(this, momento)),
+            record: record, onSaved: (momento) => jrnlBloc?.save(this, momento)),
       ),
     );
   }
@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Center(
-        child: Journal(jrnlBloc.records, this._pushDetails),
+        child: Journal(jrnlBloc!.records, this._pushDetails),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

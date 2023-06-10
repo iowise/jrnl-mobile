@@ -19,8 +19,10 @@ class JrnlParser {
       for (var match in matches) {
         final dateBlob = match.group(1);
         final text = match.group(2);
-        final date = DateTime.parse(dateBlob);
-        yield Record(date, text.split('\n')[0], text.trim());
+        if (dateBlob != null && text != null) {
+          final date = DateTime.parse(dateBlob);
+          yield Record(date, text.split('\n')[0], text.trim());
+        }
       }
     }
   }
@@ -29,7 +31,7 @@ class JrnlParser {
 String render(List<Record> records) {
   final buffer = new StringBuffer();
   for (var record in records) {
-    buffer.write("[${record.preattyCreated}] ${record.fullContent}\n");
+    buffer.write("[${record.prettyCreated}] ${record.fullContent}\n");
   }
   return buffer.toString();
 }

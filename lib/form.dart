@@ -6,20 +6,20 @@ import 'jrnl/models.dart';
 
 class RecordForm extends StatefulWidget {
   final void Function(RecordMomento record) onSaved;
-  final Record record;
+  final Record? record;
 
   RecordForm({
-    Key key,
+    Key? key,
     this.record,
-    @required this.onSaved,
+    required this.onSaved,
   }) : super(key: key);
 
   @override
   _RecordFormState createState() => _RecordFormState(
-      record == null,
-      record == null ? RecordMomento() : RecordMomento.from(record),
-      this.onSaved,
-    );
+        record == null,
+        record == null ? RecordMomento() : RecordMomento.from(record!),
+        this.onSaved,
+      );
 }
 
 class _RecordFormState extends State<RecordForm> {
@@ -40,8 +40,12 @@ class _RecordFormState extends State<RecordForm> {
             icon: const Icon(Icons.check),
             tooltip: 'Save',
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+              final currentState = _formKey.currentState;
+              if (currentState == null) {
+                return;
+              }
+              if (currentState.validate()) {
+                currentState.save();
                 onSaved(this._data);
                 Navigator.pop(context);
               }
@@ -58,13 +62,19 @@ class _RecordFormState extends State<RecordForm> {
             children: <Widget>[
               BasicDateTimeField(
                 initialValue: this._data.createdAt,
-                onSaved: (DateTime value) {
+                onSaved: (DateTime? value) {
+                  if (value == null) {
+                    return;
+                  }
                   this._data.createdAt = value;
                 },
               ),
               LogMessage(
                 initialValue: this._data.fullContent,
-                onSaved: (String value) {
+                onSaved: (String? value) {
+                  if (value == null) {
+                    return;
+                  }
                   this._data.fullContent = value;
                 },
               ),

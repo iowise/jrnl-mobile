@@ -7,7 +7,8 @@ import 'models.dart';
 import 'parser.dart';
 
 class BloCSetting extends State {
-  rebuildWidgets({VoidCallback setStates, List<State> states}) {
+  rebuildWidgets(
+      {required VoidCallback setStates, required List<State> states}) {
     if (states != null) {
       states.forEach((s) {
         if (s != null && s.mounted) s.setState(setStates ?? () {});
@@ -18,16 +19,17 @@ class BloCSetting extends State {
   @override
   Widget build(BuildContext context) {
     print(
-        "This build function will never be called. it has to be overriden here because State interface requires this");
-    return null;
+        "This build function will never be called. it has to be override here because State interface requires this");
+    throw UnimplementedError();
   }
 }
 
-class Count1Bloc extends BloCSetting {
+class JrnlBloc extends BloCSetting {
   var records = <Record>[];
-  String _filePath;
+  String? _filePath;
 
-  open(state, String filePath) async {
+  open(state, filePath) async {
+    _filePath = filePath;
     await parse(state, filePath);
     await _rememberPath(filePath);
   }
@@ -58,7 +60,7 @@ class Count1Bloc extends BloCSetting {
     prefs.setString('filePath', filePath);
   }
 
-  void save(state, RecordMomento momento) async {
+  save(state, RecordMomento momento) async {
     rebuildWidgets(
       setStates: () {
         records.remove(momento.origin);
@@ -70,10 +72,13 @@ class Count1Bloc extends BloCSetting {
     await dumpToFile();
   }
 
-  void dumpToFile() async {
-    final file = File(_filePath);
+  dumpToFile() async {
+    if (_filePath == null || _filePath == '') {
+      return;
+    }
+    final file = File(_filePath!);
     await file.writeAsString(render(records));
   }
 }
 
-Count1Bloc jrnlBloc;
+JrnlBloc? jrnlBloc;

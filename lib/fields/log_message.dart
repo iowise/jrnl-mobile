@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LogMessage extends StatelessWidget {
-  final void Function(String) onSaved;
+  final void Function(String?) onSaved;
 
   final String initialValue;
 
   LogMessage({
-    this.initialValue,
-    this.onSaved,
+    required this.initialValue,
+    required this.onSaved,
   });
 
   @override
@@ -20,7 +20,7 @@ class LogMessage extends StatelessWidget {
       initialValue: this.initialValue,
       onSaved: this.onSaved,
       validator: (value) {
-        if (value.isEmpty) {
+        if (value != null && value.isEmpty) {
           return 'Please add a log message';
         }
         return null;
