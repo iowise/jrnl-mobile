@@ -3,17 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models.dart';
-import 'parser.dart';
+import './models.dart';
+import './parser.dart';
 
 class BloCSetting extends State {
   rebuildWidgets(
       {required VoidCallback setStates, required List<State> states}) {
-    if (states != null) {
-      states.forEach((s) {
-        if (s != null && s.mounted) s.setState(setStates ?? () {});
-      });
-    }
+    states.forEach((s) {
+      if (s.mounted) s.setState(setStates);
+    });
   }
 
   @override
@@ -28,7 +26,7 @@ class JrnlBloc extends BloCSetting {
   var records = <Record>[];
   String? _filePath;
 
-  open(state, filePath) async {
+  open(state, String filePath) async {
     _filePath = filePath;
     await parse(state, filePath);
     await _rememberPath(filePath);

@@ -1,16 +1,18 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:jrnl/jrnl/storage.dart';
 
-import 'detials.dart';
-import 'form.dart';
-import 'journal.dart';
-import 'jrnl/bloc.dart';
-import 'jrnl/models.dart';
+import './detials.dart';
+import './form.dart';
+import './journal.dart';
+import './jrnl/bloc.dart';
+import './jrnl/models.dart';
 
 class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    initDropbox();
+    loginDropbox();
     jrnlBloc = JrnlBloc();
     jrnlBloc?.restore(this);
   }
@@ -22,10 +24,8 @@ class _HomeState extends State<Home> {
   }
 
   void _loadJrnlFile() async {
-    String filePath;
-    // filePath = await FilePicker.getFilePath(
-    //     type: FileType.CUSTOM, fileExtension: 'txt');
-    // jrnlBloc.open(this, filePath);
+    final String filePath = await testListFolder();
+    jrnlBloc?.open(this, filePath);
   }
 
   void _pushCreating(BuildContext context) {
