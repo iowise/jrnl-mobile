@@ -21,7 +21,15 @@
            until Flutter renders its first frame. It can be removed if
            there is no splash screen (such as the default splash screen
            defined in @style/LaunchTheme). -->
+
       <intent-filter>
+        <!-- Change this to be db- followed by your app key -->
+        <data android:scheme="db-x5n2gzpbeie9gyp" />
+
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.BROWSABLE" />
+        <category android:name="android.intent.category.DEFAULT" />
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>

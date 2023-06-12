@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'jrnl/models.dart';
+import './jrnl/models.dart';
 
 class Journal extends StatelessWidget {
   final List<Record> _parserData;

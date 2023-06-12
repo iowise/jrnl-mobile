@@ -5,6 +5,7 @@ version: 1.0.1+1
 
 environment:
   sdk: ">=3.0.0"
+  flutter: ">=3.3.0"
 
 module:
   androidX: true
@@ -13,7 +14,12 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.5
   flutter_markdown: ^0.6.15
-  file_picker: ^5.3.2
+  path_provider: ^2.0.15
+  mutex: ^3.0.1
+  dropbox_client:
+    git:
+      url: https://github.com/EvgeneOskin/FlutterDropbox.git
+      ref: master
   datetime_picker_formfield_new: ^2.1.0
   intl: ^0.18.1
   shared_preferences: ^2.1.2

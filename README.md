@@ -1,8 +1,11 @@
-# jrnl
+# jrnl-mobile
 
-A new Flutter application.
+This is a [jrnl](https://jrnl.sh/en/stable/)-compatible Flutter application.
 
 ## Getting Started
+
+This project uses dropbox as persistent storage. The app expects `env.json` to have `DROPBOX_SECRET` 
+with Dropbox app secret key.
 
 This project is a starting point for a Flutter application.
 

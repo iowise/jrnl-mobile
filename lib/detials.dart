@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import 'jrnl/models.dart';
+import './jrnl/models.dart';
 
 class RecordDetail extends StatelessWidget {
   final Record record;

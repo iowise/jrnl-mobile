@@ -14,7 +14,7 @@ import 'package:jrnl/jrnl/models.dart';
 void main() {
   testWidgets('Form has required fields and saves a record',
       (WidgetTester tester) async {
-    Record called;
+    Record? called;
     await tester.pumpWidget(MaterialApp(
       home: Scaffold(
         body: RecordForm(
@@ -41,7 +41,7 @@ void main() {
     expect(find.text('Please select a date'), findsNothing);
     expect(find.text('Please add a log message'), findsNothing);
 
-    expect(called.fullContent, equals('ping'));
-    expect(called.title, equals('ping'));
+    expect(called!.fullContent, equals('ping'));
+    expect(called!.title, equals('ping'));
   });
 }

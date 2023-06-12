@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'fields/log_message.dart';
-import 'fields/datetime.dart';
-import 'jrnl/models.dart';
+import './fields/log_message.dart';
+import './fields/datetime.dart';
+import './jrnl/models.dart';
 
 class RecordForm extends StatefulWidget {
   final void Function(RecordMomento record) onSaved;
