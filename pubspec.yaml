@@ -15,6 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   flutter_markdown: ^0.6.15
   path_provider: ^2.0.15
+  mutex: ^3.0.1
   dropbox_client:
     git:
       url: https://github.com/EvgeneOskin/FlutterDropbox.git

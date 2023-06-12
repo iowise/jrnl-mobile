@@ -12,6 +12,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'jrnl',
       home: Home(),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Color(0x604385),
+      ),
     );
   }
 }

@@ -13,8 +13,11 @@ class _HomeState extends State<Home> {
     super.initState();
     initDropbox();
     loginDropbox();
-    jrnlBloc = JrnlBloc();
-    jrnlBloc?.restore(this);
+    if (jrnlBloc == null) {
+      jrnlBloc = JrnlBloc();
+    }
+    jrnlBloc?.load(this);
+    sync();
   }
 
   @override
@@ -23,15 +26,16 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  void _loadJrnlFile() async {
-    final String filePath = await testListFolder();
-    jrnlBloc?.open(this, filePath);
+  Future sync() async {
+    jrnlBloc?.sync(this);
   }
 
   void _pushCreating(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute<void>(builder: (BuildContext context) {
-      return RecordForm(onSaved: (momento) => jrnlBloc?.save(this, momento));
+      return RecordForm(onSaved: (momento) async {
+        await jrnlBloc?.save(this, momento);
+      });
     }));
   }
 
@@ -45,20 +49,25 @@ class _HomeState extends State<Home> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (BuildContext context) => RecordForm(
-            record: record, onSaved: (momento) => jrnlBloc?.save(this, momento)),
+          record: record,
+          onSaved: (momento) => jrnlBloc?.save(this, momento),
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('jrnl'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.save), onPressed: _loadJrnlFile),
-        ],
+    final actions = [
+      IconButton(
+        icon: Icon(
+          jrnlBloc?.hasChanges == true ? Icons.upload : Icons.download,
+        ),
+        onPressed: sync,
       ),
+    ];
+    return Scaffold(
+      appBar: AppBar(title: Text('jrnl'), actions: actions),
       body: Center(
         child: Journal(jrnlBloc!.records, this._pushDetails),
       ),
